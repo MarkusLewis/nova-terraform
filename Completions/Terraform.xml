@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completions>
+    <provider name="identifier">
+        <syntax>terraform</syntax>
+        <selector>*:not(string,comment)</selector>
+        <expression>\b[a-zA-Z0-9-_]*</expression>
+        <set>terraform.keywords</set>
+    </provider>
+    
+    <set name="terraform.keywords" symbol="statement">
+        <completion string="resource" />
+        <completion string="data" />
+        <completion string="terraform" />
+        <completion string="backend" />
+        <completion string="provider" />
+    </set>
+</completions>

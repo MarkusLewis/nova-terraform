@@ -1,0 +1,8 @@
+{
+    "identifier": "icosillion.Terraform",
+    "name": "Terraform",
+    "vendor": "Icosillion",
+    "description": "Syntax highlighting for Terraform",
+    "version": "0.1",
+    "categories": ["languages"]
+}

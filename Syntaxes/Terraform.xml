@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax name="terraform">
+	<meta>
+		<name>Terraform</name>
+		<type>structured</type>
+		<preferred-file-extension>tf</preferred-file-extension>
+	</meta>
+	
+	<detectors>
+		<extension priority="1.0">tf</extension>
+		<extension priority="0.8">tfvars</extension>
+		<extension prioriry="0.8">terraform</extension>
+	</detectors>
+	
+	<comments>
+		<multiline>
+			<starts-with>
+				<expression>/\*</expression>
+			</starts-with>
+			<ends-with>
+				<expression>\*/</expression>
+			</ends-with>
+		</multiline>
+		<single>
+			<expression>#</expression>
+		</single>
+	</comments>
+	
+	<brackets>
+        <pair open="{" close="}" />
+		<pair open="[" close="]" />
+    </brackets>
+    
+    <surrounding-pairs>
+        <pair open="{" close="}" />
+		<pait open="[" close="]" />
+    </surrounding-pairs>
+	
+	<scopes>
+		<scope name="terraform.comment.single" spell-check="true">
+			<expression>(\#|\/\/).*$</expression>
+		</scope>
+		
+		<scope name="terraform.comment.block" spell-check="true">
+			<starts-with>
+				<expression>/\*</expression>
+			</starts-with>
+			<ends-with>
+				<expression>\*/</expression>
+			</ends-with>
+		</scope>
+		
+		<scope name="terraform.operator">
+    		<expression>(\=)</expression>
+    	</scope>
+		
+		<scope name="terraform.value.null">
+    		<strings>
+    			<string>null</string>
+    		</strings>
+    	</scope>
+		
+    	<scope name="terraform.value.boolean">
+    		<strings>
+    			<string>true</string>
+    			<string>false</string>
+    		</strings>
+    	</scope>
+		
+    	<scope name="terraform.value.number">
+    		<expression>(\-|\+)?(?:\d+(?:\.\d*)?|(?:\.\d+))?</expression>
+    	</scope>
+		
+		<scope name="terraform.bracket.curly.open">
+			<symbol type="block">
+				<context behavior="start" group="curly-brackets" />
+			</symbol>
+			<expression>\{</expression>
+		</scope>
+		
+		<scope name="terraform.bracket.curly.close">
+			<symbol type="block">
+				<context behavior="end" group="curly-brackets" />
+			</symbol>
+			<expression>\}</expression>
+		</scope>
+		
+		<include syntax="self" collection="keywords" />
+		<include syntax="self" collection="strings" />
+		<include syntax="self" collection="definitions" />
+	</scopes>
+	
+	<collections>
+		<collection name="keywords">
+			<scope name="terraform.keyword">
+				<strings>
+				    <string>resource</string>
+				    <string>data</string>
+					<string>terraform</string>
+					<string>backend</string>
+					<string>provider</string>
+				</strings>
+			</scope>
+		</collection>
+		
+		<collection name="strings">
+			<scope name="terraform.string.double-quoted">
+				<expression>&quot;((?:[^&quot;\\]|\\.)*)(?:&quot;|$)</expression>
+				<capture number="1" name="terraform.string.double-quoted.text" />
+			</scope>
+		</collection>
+		
+		<collection name="definitions">
+			<scope name="terraform.definition.identifier">
+				<symbol type="variable" scope="local" />
+				<expression>([a-zA-Z_][A-Za-z0-9_]*)\s*(\=)(?!\=)</expression>
+				<capture number="1" name="terraform.identifier.name" />
+				<capture number="2" name="terraform.operator" />
+			</scope>
+		</collection>
+	</collections>
+</syntax>
